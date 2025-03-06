@@ -5,8 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOPMODS</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .error { 
+            border: 2px solid red;
+            background-color: #ffe6e6;
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
+
+<table border="1">
+    <tr>
+        <td><input type="text" class="cell"></td>
+        <td><input type="text" class="cell"></td>
+        <td><input type="text" class="cell"></td>
+    </tr>
+</table>
+<button onclick="validateCells()">Проверить</button>
+
+<script>
+    function validateCells() {
+        let cells = document.querySelectorAll(".cell");
+        
+        cells.forEach(cell => {
+            let errorMessage = cell.nextElementSibling;
+            if (!errorMessage || !errorMessage.classList.contains("error-message")) {
+                errorMessage = document.createElement("div");
+                errorMessage.classList.add("error-message");
+                cell.after(errorMessage);
+            }
+
+            if (cell.value.trim() === "") {
+                cell.classList.add("error");
+                errorMessage.textContent = "Введите значение";
+                errorMessage.style.display = "block";
+            } else {
+                cell.classList.remove("error");
+                errorMessage.style.display = "none";
+            }
+        });
+    }
+
+</body>
+</html>
+
 
     <div class="card">
         <h1 class="title">LOPMODS</h1>
