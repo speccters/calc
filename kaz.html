@@ -212,8 +212,9 @@
             </div>
 
             <div class="input-group">
-                <label for="creatinine">Креатинин (мкмоль/л)</label>
-                <input type="number" id="creatinine">
+                <label for="creatinine">Креатинин:</label>
+                <select id="creatinine">
+                </select>
             </div>
 
             <div class="input-group">
@@ -232,7 +233,7 @@
             </div>
 
             <div class="input-group">
-                <label for="arf">Жедел жеткіліксіздік бар ма</label>
+                <label for="arf">Жедел бүйрек жеткіліксіздігі бар ма?</label>
                 <input type="checkbox" id="arf">
             </div>
 
@@ -254,6 +255,24 @@
     </div>
 
     <script>
+         const creatinineOptions = [
+        { value: "8", text: "> 300.56 и ОПН (8 points)" },
+        { value: "6", text: "176.8 - 300.56 и ОПН (6 points)" },
+        { value: "4", text: "> 300.56 и ХПН (4 points)" },
+        { value: "4", text: "132.6 - 176.7 и ОПН (4 points)" },
+        { value: "3", text: "176.8 - 300.56 и ХПН (3 points)" },
+        { value: "2", text: "132.6 - 176.7 и ХПН (2 points)" },
+        { value: "0", text: "53.04 - 132.5 (0 points)" },
+        { value: "2", text: "< 53.04 (2 points)" }
+    ];
+
+    const creatinineSelect = document.getElementById("creatinine");
+    creatinineOptions.forEach(option => {
+        const opt = document.createElement("option");
+        opt.value = option.value;
+        opt.textContent = option.text;
+        creatinineSelect.appendChild(opt);
+    });
         // Данные для выпадающего списка с баллами
         const options = [
             { value: "0", text: "< 200 немесе PaO₂ > 70 (0 points)" },
@@ -316,7 +335,7 @@
     const ph = getValue("ph");
     const sodium = getValue("sodium");
     const potassium = getValue("potassium");
-    const creatinine = getValue("creatinine");
+    const creatinine = parseInt(getValue("creatinine", "text"));
     const hematocrit = getValue("hematocrit");
     const wbc = getValue("wbc");
     const glasgow = getValue("glasgow");
@@ -416,15 +435,6 @@
         else if (potassium < 2.5) score += 4;
     }
 
-    // Креатинин сыворотки
-    if (creatinine !== null) {
-        if (creatinine > 300.56) score += 4;
-        else if (creatinine >= 176.8) score += 3;
-        else if (creatinine >= 132.6) score += 2;
-        else if (creatinine >= 53.04) score += 0;
-        else if (creatinine < 53.04) score += 2;
-    }
-
 
     // Гематокрит
     if (hematocrit !== null) {
@@ -479,7 +489,7 @@
         if (isImmunodeficiency) score += 2;
     }
 }
-
+    score +=creatinine;
     score += gasAnalysis;
    document.getElementById("result").innerText=" Жалпы балл " + score;
 }
