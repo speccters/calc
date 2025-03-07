@@ -97,8 +97,9 @@
             </div>
 
             <div class="input-group">
-                <label for="creatinine">Креатинин (мкмоль/л)</label>
-                <input type="number" id="creatinine">
+                <label for="creatinine">Креатинин:</label>
+                <select id="creatinine">
+                </select>
             </div>
 
             <div class="input-group">
@@ -139,6 +140,24 @@
     </div>
 
     <script>
+         const creatinineOptions = [
+        { value: "8", text: "> 300.56 и ОПН (8 points)" },
+        { value: "6", text: "176.8 - 300.56 и ОПН (6 points)" },
+        { value: "4", text: "> 300.56 и ХПН (4 points)" },
+        { value: "4", text: "132.6 - 176.7 и ОПН (4 points)" },
+        { value: "3", text: "176.8 - 300.56 и ХПН (3 points)" },
+        { value: "2", text: "132.6 - 176.7 и ХПН (2 points)" },
+        { value: "0", text: "53.04 - 132.5 (0 points)" },
+        { value: "2", text: "< 53.04 (2 points)" }
+    ];
+
+    const creatinineSelect = document.getElementById("creatinine");
+    creatinineOptions.forEach(option => {
+        const opt = document.createElement("option");
+        opt.value = option.value;
+        opt.textContent = option.text;
+        creatinineSelect.appendChild(opt);
+    });
         // Данные для выпадающего списка с баллами
         const options = [
             { value: "0", text: "< 200 или PaO₂ > 70 (0 points)" },
@@ -361,7 +380,7 @@
         if (isImmunodeficiency) score += 2;
     }
 }
-
+    score += creatinine;
     score += gasAnalysis;
    document.getElementById("result").innerText=" Общий балл " + score;
 }
