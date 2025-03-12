@@ -238,7 +238,7 @@
             </div>
 
             <div class="input-group">
-                <label for="arf">Жедел бүйрек жеткіліксіздігі бар ма?</label>
+                <label for="arf">Жедел бүйрек жеткіліксіздігі</label>
                 <input type="checkbox" id="arf">
             </div>
 
@@ -499,6 +499,7 @@
         document.getElementById("result").innerHTML = "<span style='color: red;'>Мәнді енгізіңіз</span>";
     } else {
         document.getElementById("result").innerText = "Жалпы балл " + score;
+        document.getElementById("apacheScore").value = score; // Automatically fill the apacheScore field
     }
 }
     
