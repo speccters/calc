@@ -117,7 +117,7 @@
             </div>
 
             <div class="input-group">
-                <label for="arf">Is there an acute renal failure?</label>
+                <label for="arf"> an acute renal failure</label>
                 <input type="checkbox" id="arf">
             </div>
 
@@ -374,6 +374,7 @@
     score += creatinine;
     score += gasAnalysis;
    document.getElementById("result").innerText=" Total score " + score;
+   document.getElementById("apacheScore").value = score; // Automatically fill the apacheScore field
 }
     
     function calculateMortality() {
