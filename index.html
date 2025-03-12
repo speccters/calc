@@ -123,7 +123,7 @@
             </div>
 
             <div class="input-group">
-                <label for="arf">Есть ли острая почечная недостаточность?</label>
+                <label for="arf">Острая почечная недостаточность</label>
                 <input type="checkbox" id="arf">
             </div>
 
@@ -369,6 +369,7 @@
         document.getElementById("result").innerHTML = "<span style='color: red;'>Введите значение</span>";
     } else {
         document.getElementById("result").innerText = "Общий балл " + score;
+        document.getElementById("apacheScore").value = score; // Automatically fill the apacheScore field
     }
 }
     
