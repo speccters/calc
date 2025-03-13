@@ -478,20 +478,14 @@
     }
 
     // Сопутствующая патология
-    if (patientType === "nonOperated" || patientType === "emergencySurgery") {
-    if (isARF && isImmunodeficiency) {
+      if (patientType === "nonOperated" || patientType === "emergencySurgery") {
+    if (isImmunodeficiency) {
         score += 5;
-    } else {
-        if (isARF) score += 5;
-        if (isImmunodeficiency) score += 5;
-    }
+    } 
 } else if (patientType === "plannedSurgery") {
-    if (isARF && isImmunodeficiency) {
+    if (isImmunodeficiency) {
         score += 2;
-    } else {
-        if (isARF) score += 2;
-        if (isImmunodeficiency) score += 2;
-    }
+    } 
 }
 
     score += gasAnalysis;
