@@ -8,14 +8,14 @@
 </head>
 <body>
 
-    <div class="card">
+     <div class="card">
         <h1 class="title">LOPMODS</h1>
         <p class="subtitle">Lethal Outcome Prediction of MODS</p>
 
         <h2>Calculate the probability of a fatal outcome of multiorgan dysfunction</h2>
 
         <div class="input-group">
-            <label for="iFabp"> I-FABP level in blood serum (Pg/ml) </label>
+            <label for="iFabp">I-FABP level in blood serum (Pg/ml)</label>
             <input type="number" id="iFabp">
         </div>
 
@@ -28,7 +28,7 @@
 
         <div id="mortalityResult" class="result"></div>
 
-        <h2> APACHE II Calculator</h2>
+        <h2>APACHE II Calculator</h2>
 
         <div class="input-group">
             <label for="useApache">Calculate APACHE II?</label>
@@ -64,7 +64,7 @@
             </div>
 
             <div class="input-group">
-                <label for="heartRate"> heart Rate (b/min)</label>
+                <label for="heartRate">heart Rate (b/min)</label>
                 <input type="number" id="heartRate">
             </div>
 
@@ -90,14 +90,20 @@
                 <input type="number" id="sodium">
             </div>
 
+
             <div class="input-group">
                 <label for="potassium">Potassium (mmol/L)</label>
                 <input type="number" id="potassium">
             </div>
 
             <div class="input-group">
-               <label for="creatinine">creatinine (μMol/L):</label>
-                <select id="creatinine">
+                <label for="creatinineRange">Creatinine (μMol/L)</label>
+                <select id="creatinineRange">
+                    <option value="4">> 300.56</option>
+                    <option value="3">176.8 - 300.56</option>
+                    <option value="2">132.6 - 176.7</option>
+                    <option value="0">53.04 - 132.5</option>
+                    <option value="2">< 53.04</option>
                 </select>
             </div>
 
@@ -117,7 +123,7 @@
             </div>
 
             <div class="input-group">
-                <label for="arf"> an acute renal failure</label>
+                <label for="arf">An acute renal failure</label>
                 <input type="checkbox" id="arf">
             </div>
 
@@ -131,33 +137,17 @@
             <div id="result" class="result"></div>
         </div>
     </div>
+
     <div class="language-buttons">
         <button class="btn" onclick="window.location.href='kaz.html'">KZ</button>
-        <button class="btn" onclick="window.location.href='index.html'">RU</button>
+        <button class="btn" onclick="window.location.href='eng.html'">EN</button>
         <button class="btn btn-help" onclick="window.location.href='help_html/help_en.html'">Help</button>
     </div>
-    <script>
-          const creatinineOptions = [
-        { value: "8", text: "> 300.56 и ОПН (8 points)" },
-        { value: "6", text: "176.8 - 300.56 и ОПН (6 points)" },
-        { value: "4", text: "> 300.56 и ХПН (4 points)" },
-        { value: "4", text: "132.6 - 176.7 и ОПН (4 points)" },
-        { value: "3", text: "176.8 - 300.56 и ХПН (3 points)" },
-        { value: "2", text: "132.6 - 176.7 и ХПН (2 points)" },
-        { value: "0", text: "53.04 - 132.5 (0 points)" },
-        { value: "2", text: "< 53.04 (2 points)" }
-    ];
 
-    const creatinineSelect = document.getElementById("creatinine");
-    creatinineOptions.forEach(option => {
-        const opt = document.createElement("option");
-        opt.value = option.value;
-        opt.textContent = option.text;
-        creatinineSelect.appendChild(opt);
-    });
+    <script>
         // Данные для выпадающего списка с баллами
         const options = [
-            { value: "0", text: "< 200 or PaO₂ > 70 (0 points)" },
+            { value: "0", text: "< 200 или PaO₂ > 70 (0 points)" },
             { value: "4", text: ">= 500 (4 points)" },
             { value: "3", text: "350-499 (3 points)" },
             { value: "2", text: "200-349 (2 points)" },
@@ -183,7 +173,7 @@
         // Добавляем обработчик событий
         select.addEventListener("change", function() {
             const selectedValue = this.value;
-            resultSpan.textContent = `Выбранное значение: ${selectedValue} points`;
+            resultSpan.textContent = `Selected value: ${selectedValue} points`;
         });
 
         function toggleApacheScale() {
@@ -198,12 +188,17 @@
 
       function calculateScore() {
     let score = 0;
-
+    let hasEmptyFields = false;
 
     function getValue(id, type = 'number') {
         const element = document.getElementById(id);
-        if (!element) return 0;
-        if (type === 'checkbox') return element.checked ? 1 : 0;
+        if (!element || element.value === "") {
+            element.style.borderColor = "red";
+            hasEmptyFields = true;
+            return null;
+        } else {
+            element.style.borderColor = "";
+        }        if (type === 'checkbox') return element.checked ? 1 : 0;
         if (type === 'number') return parseFloat(element.value) || 0;
         if (type === "text") return element.value.trim() || "";
         return element.value;
@@ -217,7 +212,7 @@
     const ph = getValue("ph");
     const sodium = getValue("sodium");
     const potassium = getValue("potassium");
-    const creatinine = parseInt(getValue("creatinine", "text"));
+    const creatinineRange = parseInt(getValue("creatinineRange", "text")) || 0;
     const hematocrit = getValue("hematocrit");
     const wbc = getValue("wbc");
     const glasgow = getValue("glasgow");
@@ -225,9 +220,8 @@
     const isImmunodeficiency = getValue("immunodeficiency", "checkbox");
     const patientType = document.getElementById("patientType").value || 0;
     const gasAnalysis = parseInt(getValue("gas-analysis", "text")) || 0;
-                
 
-  
+    // Возраст
     if (age !== null) {
         if (age >= 75) score += 6;
         else if (age >= 65) score += 5;
@@ -280,7 +274,6 @@
         else if (respiratoryRate < 6) score += 4;
     }
 
-
     // pH артериальной крови
     if (ph !== null) {
         if (ph > 7.69) score += 4;
@@ -291,7 +284,6 @@
         else if (ph >= 7.15) score += 3;
         else if (ph < 7.15) score += 4;
     }
-
 
     // Натрий сыворотки
     if (sodium !== null) {
@@ -316,6 +308,12 @@
         else if (potassium < 2.5) score += 4;
     }
 
+    // Креатинин сыворотки
+    if (creatinineRange !== null) {
+        let creatinineScore = creatinineRange;
+        if (isARF) creatinineScore *= 2;
+        score += creatinineScore;
+    }
 
     // Гематокрит
     if (hematocrit !== null) {
@@ -357,24 +355,22 @@
 
     // Сопутствующая патология
     if (patientType === "nonOperated" || patientType === "emergencySurgery") {
-    if (isARF && isImmunodeficiency) {
+    if (isImmunodeficiency) {
         score += 5;
-    } else {
-        if (isARF) score += 5;
-        if (isImmunodeficiency) score += 5;
-    }
+    } 
 } else if (patientType === "plannedSurgery") {
-    if (isARF && isImmunodeficiency) {
+    if (isImmunodeficiency) {
         score += 2;
-    } else {
-        if (isARF) score += 2;
-        if (isImmunodeficiency) score += 2;
-    }
+    } 
 }
-    score += creatinine;
+
     score += gasAnalysis;
-   document.getElementById("result").innerText=" Total score " + score;
-   document.getElementById("apacheScore").value = score; // Automatically fill the apacheScore field
+    if (hasEmptyFields) {
+        document.getElementById("result").innerHTML = "<span style='color: red;'>Enter the value</span>";
+    } else {
+        document.getElementById("result").innerText = "Total score " + score;
+        document.getElementById("apacheScore").value = score; // Automatically fill the apacheScore field
+    }
 }
     
     function calculateMortality() {
@@ -382,13 +378,13 @@
         const apacheScore = parseFloat(document.getElementById("apacheScore").value) || 0;
         
         if (iFabp === 0 && apacheScore === 0) {
-            document.getElementById("mortalityResult").innerText = "The probability of death: 0%";
+            document.getElementById("mortalityResult").innerText = "Вероятность летального исхода: 0%";
             return;
         }
 
-        const z = -3.389 + 0.001 * iFabp + 0.182 * apacheScore;
+        const z = -4.19 + 0.002 * iFabp + 0.214 * apacheScore;
         const mortalityRate = 1 / (1 + Math.exp(-z));
-        document.getElementById("mortalityResult").innerText = `The probability of death: ${(mortalityRate * 100).toFixed(1)}%`;
+        document.getElementById("mortalityResult").innerText = `Вероятность летального исхода: ${(mortalityRate * 100).toFixed(1)}%`;
     }
     
     function toggleMenu() {
