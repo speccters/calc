@@ -1,0 +1,242 @@
+:root {
+    --primary-color: #3b82f6;
+    --hover-color: #2563eb;
+    --bg-light: #eef2f6;
+    --text-main: #1e293b;
+    /* Эффект стекла */
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.5);
+}
+
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background-color: var(--bg-light);
+    background-image: url(3016869.png);
+    background-repeat: no-repeat;
+    background-position: right 10% center; 
+    background-size: contain;
+    background-attachment: fixed;
+    color: var(--text-main);
+    margin: 0;
+    padding: 40px 20px;
+    min-height: 100vh;
+}
+
+.card {
+    max-width: 900px; /* Увеличил для двух колонок */
+    margin: 0 auto;
+    padding: 40px;
+    border-radius: 24px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px); 
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+.title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 5px;
+    text-align: center;
+    width: 100%;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    width: 100%;
+}
+
+h2 {
+    font-size: 1.1rem;
+    margin-top: 30px;
+    color: #334155;
+    font-weight: 700;
+}
+
+/* Сетка для двух колонок */
+.main-layout {
+    display: flex;
+    flex-direction: row; 
+    gap: 30px;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.column {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Поля ввода */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #475569;
+}
+
+.input-group input, 
+.input-group select {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* Важно для мобильных */
+}
+
+.input-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+
+/* Кнопки */
+.btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+}
+
+/* Языковые кнопки */
+.language-buttons {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    display: flex;
+    gap: 10px;
+}
+
+.language-buttons .btn {
+    width: auto;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    background: white;
+    color: var(--text-main);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.btn-help {
+    background-color: #10b981 !important;
+    color: white !important;
+}
+
+/* Результаты и цветовые риски */
+.result {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.4s ease; 
+    border: 2px solid transparent;
+    font-size: 1.1rem;
+    background: rgba(59, 130, 246, 0.05);
+    color: #1e40af;
+}
+
+.risk-low {
+    background-color: #dcfce7 !important;
+    color: #166534 !important;
+    border-color: #22c55e !important;
+}
+
+.risk-medium {
+    background-color: #fef9c3 !important;
+    color: #854d0e !important;
+    border-color: #eab308 !important;
+}
+
+.risk-high {
+    background-color: #fee2e2 !important;
+    color: #991b1b !important;
+    border-color: #ef4444 !important;
+}
+
+/* --- МОБИЛЬНАЯ ВЕРСТКА --- */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+        background-position: center bottom; 
+        background-size: 40%;
+    }
+
+    .main-layout {
+        flex-direction: column; 
+        gap: 0; /* Убираем gap, используем margin у колонок */
+    }
+
+    .column {
+        width: 100%;
+        margin-bottom: 30px; /* Чтобы блоки не слипались */
+    }
+
+    /* Добавляем визуальную границу между калькуляторами */
+    .column:first-child {
+        border-bottom: 2px dashed #e2e8f0;
+        padding-bottom: 30px;
+    }
+
+    .card {
+        padding: 20px;
+        margin: 0;
+        font-size: 0.85rem; /* Уменьшение масштаба */
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1rem;
+        margin-top: 15px;
+    }
+
+    .language-buttons {
+        position: static;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    input, select, .btn {
+        padding: 10px 12px; 
+        font-size: 0.9rem;
+    }
+
+    .input-group {
+        margin-bottom: 12px; 
+    }
+
+    .input-group input[type="checkbox"] {
+        width: 22px;
+        height: 22px;
+    }
+}
