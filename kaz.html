@@ -247,7 +247,7 @@
             const apacheScore = parseFloat(document.getElementById("apacheScore").value) || 0;
             const resDiv = document.getElementById("mortalityResult");
 
-            const z = -3.389 + (0.001 * iFabp) + (0.182 * apacheScore);
+            const z = -5.102 + (0.02 * iFabp) + (0.273 * apacheScore);
             const prob = 1 / (1 + Math.exp(-z));
             const percent = (prob * 100).toFixed(1);
 
